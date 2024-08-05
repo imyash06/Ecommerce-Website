@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Font Awesome CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+/* Center the form */
+.login-container {
+	display: flex;
+	height: 100vh;
+}
+
+.login-image, .login-form {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.login-image img {
+	max-height: 80vh; /* Set maximum height for the image */
+	max-width: 100%; /* Ensure image doesn't exceed container width */
+}
+
+/* Lighting effect on input hover */
+input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover,
+	button:hover {
+	box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+	/* Change shadow color to blue */
+}
+
+/* Round shape for input fields and button */
+input[type="text"], input[type="email"], input[type="password"], button
+	{
+	border-radius: 20px; /* Make round */
+}
+
+/* Increase input field size */
+.form-control {
+	font-size: 1.2rem; /* Increase font size */
+	padding: 20px; /* Increase padding */
+}
+
+/* Center, bold, italic, and shadow for h2 tag */
+h2 {
+	text-align: center;
+	font-size: 2.5rem; /* Increase font size */
+	font-weight: bold;
+	font-style: italic;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow */
+	margin-bottom: 30px; /* Add spacing */
+}
+
+/* Change button color and text color on hover */
+.btn:hover {
+	background-color: green; /* Change button background color */
+	color: #ffffff; /* Change text color */
+	font-size: 1.2rem; /* Increase font size */
+	padding: 10px 25px; /* Increase padding */
+}
+</style>
+</head>
+<body>
+
+	<div class="login-container">
+		<div class="login-image col-md-6">
+			<img src="https://visitorwelcome.adani.com/Assets/img/login.png">
+		</div>
+		<div class="login-form col-md-6">
+			<div>
+				<h2 class="mb-3">Login</h2>
+
+				<div id="error-message" class="alert alert-danger"
+					style="display: none;">Invalid UserName and Password</div>
+				<div id="success-message" class="alert alert-success"
+					style="display: none;">Login successful!</div>
+
+				<form id="login-form">
+					<div class="form-group">
+						<label for="email" style="font-size: 1.2rem;"> <i
+							class="fa fa-user"></i> Enter UserName
+						</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="email" name="email"
+								placeholder="Enter UserName" required>
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fa fa-user"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" style="font-size: 1.2rem;"> <svg
+								xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+								fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+							<path
+									d="M4.5 6a2 2 0 1 1 4 0v2a2 2 0 1 1-4 0V6zm3-3a3 3 0 0 0-2.995 2.824L4 6v2a5 5 0 1 0 10 0V6a3 3 0 0 0-2.824-2.995L9.5 2z" />
+						</svg> Password
+						</label>
+						<div class="input-group">
+							<input type="password" class="form-control" id="password"
+								name="password" placeholder="****" required>
+							<div class="input-group-append">
+								<span class="input-group-text"> <svg
+										xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+										fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+									<path
+											d="M4.5 6a2 2 0 1 1 4 0v2a2 2 0 1 1-4 0V6zm3-3a3 3 0 0 0-2.995 2.824L4 6v2a5 5 0 1 0 10 0V6a3 3 0 0 0-2.824-2.995L9.5 2z" />
+								</svg>
+								</span>
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block"
+						style="font-size: 1.2rem;">
+						<i class="fa fa-sign-in"></i> Login
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			// Check if the URL contains the error parameter
+			const urlParams = new URLSearchParams(window.location.search);
+			if (urlParams.has('error')) {
+				// Show the error message
+				$('#error-message').show();
+
+				// Hide the error message after 3 seconds
+				setTimeout(function() {
+					$('#error-message').fadeOut('slow');
+				}, 2000);
+			}
+
+			// Handle form submission
+			$('#login-form').on('submit', function(event) {
+				event.preventDefault();
+
+				// Send form data via AJAX
+				$.ajax({
+					type : 'POST',
+					url : '/login',
+					data : {
+						email : $('#email').val(),
+						password : $('#password').val()
+					},
+					success : function(response) {
+						// If login is successful, show success message
+						$('#success-message').show();
+						setTimeout(function() {
+							$('#success-message').fadeOut('slow', function() {
+								window.location.href = 'Dashboard'; // After that it will redirect to Dashboard.html page
+							});
+						}, 2000);
+					},
+					error : function(xhr, status, error) {
+						// If login fails, show error message
+						$('#error-message').show();
+						setTimeout(function() {
+							$('#error-message').fadeOut('slow');
+						}, 2000);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

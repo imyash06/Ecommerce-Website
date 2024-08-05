@@ -1,0 +1,188 @@
+<!-- <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Best Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .navbar {
+            background-color: #343a40 !important;
+        }
+        .navbar-brand, .nav-link, .footer p {
+            color: #f8f9fa;
+        }
+        .nav-link:hover {
+            color: #adb5bd !important;
+        }
+        .hero-image {
+            background-image: url(https://t3.ftcdn.net/jpg/06/55/48/22/360_F_655482254_1k1yrQACCvforJsBqcLgQgJAuoPSzg3X.jpg); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            position: relative;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .hero-text h1 {
+            font-size: 4rem;
+             font-weight: 700;
+        }
+        .hero-text p {
+            font-size: 1.5rem;
+             font-weight: 300;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 20px;
+             padding: 10px 20px;
+            font-size: 1.2rem;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-outline-success {
+            border-radius: 20px;
+            color: #28a745;
+            border-color: #28a745;
+             padding: 10px 20px;
+            font-size: 1.2rem;
+        }
+        .btn-outline-success:hover {
+            color: #ffffff !important;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .product-card {
+            transition: transform 0.3s;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .footer {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+              text-align: center;
+        }
+        .features {
+            background: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 60px 0;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .feature-item i {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Best Store</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form class="d-flex" action="/products/search" method="get">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+</div>
+        </div>
+    </nav>
+
+    Hero Section
+    <div class="hero-image">
+        <div class="hero-text">
+            <h1 class="display-3">Welcome to Best Store</h1>
+            <p class="lead">Find the best products here</p>
+            <a class="btn btn-primary btn-lg" href="/products">Shop Now</a>
+        </div>
+    </div>
+
+    Product Showcase
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Featured Products</h2>
+        <div class="row">
+            <div class="col-md-4"  th:each="product:${products}">
+                <div class="card product-card">
+                    <img  th:src="${product.imageFileName}" class="card-img-top" alt="Product 1">
+                    <div class="card-body">
+                        <h5 class="card-title"  th:text="${product.name}"></h5>
+                        <p class="card-text" th:text="${product.description}"></p>
+                        <a  th:href="@{/products/view-product-details(id=${product.id})}"    class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    Features Section
+    <div class="features mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 feature-item">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h5>Fast Shipping</h5>
+                    <p>Get your products delivered in record time.</p>
+                </div>
+                <div class="col-md-4 feature-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h5>Best Prices</h5>
+                    <p>We offer competitive prices on all our products.</p>
+                </div>
+                <div class="col-md-4 feature-item">
+                    <i class="fas fa-headset"></i>
+                    <h5>24/7 Support</h5>
+                    <p>Contact us anytime, we are here to help.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    Footer Section
+    <div class="footer text-center mt-5">
+        <div class="container">
+            <p>&copy; 2024 Best Store. All rights reserved.</p>
+        </div>
+    </div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+	
+   
+</body>
+</html>
+ -->
+ 
+ 
+ 
+ 

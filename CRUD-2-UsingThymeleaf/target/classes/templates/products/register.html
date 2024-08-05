@@ -1,0 +1,172 @@
+
+ <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>  body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #343a40 !important;
+        }
+        .navbar-brand, .nav-link, .footer p {
+            color: #f8f9fa;
+        }
+        .nav-link:hover {
+            color: #adb5bd !important;
+        }
+        body {
+            background-color: #f8f9fa;
+            background-image: url('https://images.unsplash.com/photo-1522529599120-7e1c2f380d5a'); /* Background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        
+         /* Style for Three.js container */
+        #threejs-container {
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            margin-top: 20px; /* Spacing from the form */
+        }
+    </style>
+</head>
+
+<body>
+   
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}" style="font-size: 24px;">Admin  Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}" style="font-size: 18px;">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/register}" style="font-size: 18px;">Register</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/login}" style="font-size: 18px;">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card">
+                        <div class="card-header text-center fs-4">Register Page</div>
+                        <div class="card-body">
+                            <form th:action="@{/createUser}" method="post">
+                                <div class="mb-3">
+                                    <label for="fullName">Enter Full Name</label>
+                                    <input type="text" id="fullName" name="fullName" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email">Enter Email</label>
+                                    <input type="email" id="email" name="email" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address">Enter Address</label>
+                                    <input type="text" id="address" name="address" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobile">Enter Mobile Number</label>
+                                    <input type="text" id="mobile" name="mobile" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password">Enter Password</label>
+                                    <input type="password" id="password" name="password" class="form-control" required pattern=".{6,}" title="Six or more characters">
+                                </div>
+                                <button type="submit" class="btn btn-primary col-md-12">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    
+     <!-- Three.js Container -->
+        <div id="threejs-container"></div>
+        
+    </section>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Initialize the Three.js scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, 300); // Match the height of the Three.js container
+        document.getElementById('threejs-container').appendChild(renderer.domElement);
+
+        // Add a rotating cube to the scene
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x007bff, wireframe: true });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Adjust the scene when the window is resized
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            renderer.setSize(width, 300);
+            camera.aspect = width / 300; // Maintain aspect ratio
+            camera.updateProjectionMatrix();
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2JDzYfg6IHwZrEBGLpf3ZZ6d6GJz5xZ6T9D6kYW4jJ9B4Q6F57RFrbsuNjH" crossorigin="anonymous"></script>
+</body>
+
+</html>
+ 
